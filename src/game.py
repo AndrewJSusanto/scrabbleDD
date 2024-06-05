@@ -11,7 +11,7 @@ print('At any point, enter Ctrl + C to quit.\n')
 def menu():
     valid = False
     while valid is False:
-        options = input('\n1: Play a move\n2: Pass turn\n3: Exchange tiles\n4: Show board\n\t')
+        options = input('\n1: Play a move\n2: Pass turn\n3: Exchange tiles\n4: Show board\n5: Check words containing\n\t')
         if options == '1':
             # Play a move
             user_input()
@@ -26,8 +26,47 @@ def menu():
         elif options == '4':
             board.show()
             # valid = True
+        elif options == '5':
+            check_words()
+            # valid = True
         else:
             print('Invalid option selected.')
+
+def check_words():
+    valid = False
+    while not valid:
+        option = input('1: Starts with\n2: Ends with\n3: Contains\n\t')
+        letters = input('Find words containing your input substring:\n\t')
+        if not letters.isalpha():
+            print('Input not valid. Letters only.\n')
+        else:
+            if option == '1':
+                starts = gdg.starts_with(letters)
+                starts.sort(key=len)
+                if not starts:
+                    print('No words start with the substring ' + letters + '\n')
+                else:
+                    print(starts)
+                valid = True
+            elif option == '2':
+                ends = gdg.ends_with(letters)
+                ends.sort(key=len)
+                if not ends:
+                    print('No words end with the substring ' + letters + '\n')
+                else:
+                    print(ends)
+                valid = True
+            elif option == '3':
+                contained = gdg.contains(letters)
+                contained.sort(key=len)
+                if not contained:
+                    print('No words contain the substring ' + letters + '\n')
+                else:
+                    print(contained)
+                valid = True
+            else:
+                print(option)
+                print('Option not valid')
 
 def user_input():
     valid = False

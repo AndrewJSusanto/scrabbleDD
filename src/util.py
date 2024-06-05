@@ -194,7 +194,7 @@ class Bag():
 
 class Tile():
     """Scrabble Tiles of letter, blank, or None, and its associated value"""
-    def __init__(self, letter = None, value = None):
+    def __init__(self, letter = NONE, value = None):
         self.letter = letter
         self.value = LETTER_VALUES.get(self.letter.lower()) if self.letter.lower() in LETTER_VALUES else 0
         if not isinstance(self.letter, (str , type(None))):
@@ -205,6 +205,3 @@ class Tile():
         print(self.letter, end='')
     def show_value(self):
         print(self.value)
-
-tileA = Tile('A')
-tileA.show_value()
