@@ -24,10 +24,7 @@ LETTER_VALUES = {
 
 # word list is queried on every action to check validity and value
 # word list will be a GADDAG of Naspa Word List 2023 consisting of all valid words in modern Scrabble
-WORD_LIST = ['foo', 'bar', 'foobar', 'baz']
-randomwords = ['hello', 'this', 'is', 'a']
-blah = ['blah', 'blah', 'blah', 'blah', 'blah', 'blah']
-loaded_words = []
+
 
 def worker(word_partition):
     for word in word_partition:

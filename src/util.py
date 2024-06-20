@@ -26,9 +26,21 @@ class Board():
                     print(getattr(self.board_Tiles[i][j], 'letter') + ' ', end='')  
                 else:
                     print(getattr(self.board_Tiles[i][j], 'letter') + ' ', end='')
+                    
+    def play_value(self, tiles):
+        """
+            The goal is to return the value of the play. The function will take in the tiles
+            placed by the player and will return the value of the words created by those placed tiles.
+            
+            1. Take in a list of played tiles
+            2. For each tile, check words created expanding from the intersect
+        """ 
+        
+        
     def get_cardinal_neighbors(self, board, row, col):
         """
-            Takes a coordinate position on board and returns a list of cardinal-neighboring Tile objects
+            Takes a coordinate position on board and returns a list of cardinal-n
+            eighboring Tile objects
         """
         neighbors = [] # NSEW
         neighbors.append(getattr(board.board_Tiles[row - 1][col], 'letter')) if row > 0 else neighbors.append(NONE)
@@ -50,7 +62,7 @@ class Board():
                     - Input connects to a neighbor one or more times
                         - Call neighbors function; if neighbors neighbors returns [] then false 
         """
-        input = word.upper()
+        word = word.upper()
         input_space = []
         length = len(word)
 
@@ -65,7 +77,7 @@ class Board():
             print('Submitted coordinates out of bounds.')
             return False
         if direction is HORI:
-            if col + len(input) > BOARD_WIDTH:
+            if col + len(word) > BOARD_WIDTH:
                 # raise ValueError('Board not wide enough for play')
                 print('Board not wide enough for play')
                 return False
@@ -76,10 +88,10 @@ class Board():
             # Crosscheck input space and input word to see if it matches.
             for i in range(length):
                 if input_space[i] is not NONE:
-                    if input_space[i] != input[i]:
+                    if input_space[i] != word[i]:
                         # if the input space is filled and the letters do not match, return
                         print('Tile present \'' + input_space[i] +
-                              '\' conflicts with user input \'' + input[i] +
+                              '\' conflicts with user input \'' + word[i] +
                               '\' at ' + '[' + str(row) + ']' + '[' + str(col + i) + ']')
                         return False
             # Check if play has neighbors; play is valid if neighbors exist at least once for all tiles being played
@@ -102,10 +114,10 @@ class Board():
             # Crosscheck input space and input word to see if it matches.
             for i in range(length):
                 if input_space[i] is not NONE:
-                    if input_space[i] != input[i]:
+                    if input_space[i] != word[i]:
                         # if the input space is filled and the letters do not match, return
                         print('Tile present \'' + input_space[i] +
-                              '\' conflicts with user input \'' + input[i] +
+                              '\' conflicts with user input \'' + word[i] +
                               '\' at ' + '[' + str(row + i) + ']' + '[' + str(col) + ']') 
                         print('Invalid input, conflicting tiles from submission')
                         return False
@@ -128,7 +140,7 @@ class Board():
         if tile not in LETTER_VALUES:
             raise ValueError('Tile Contents invalid')
         self.board_Board[row][col].occupy((row, col))
-        self.board_Tiles[row][col] = Tile(letter.upper())
+        self.board_Tiles[row][col] = Tile(letter.upper(), (row, col))
 
     def placeWord(self, board, word, row, col, dir):
         space = (row, col)
@@ -194,9 +206,10 @@ class Bag():
 
 class Tile():
     """Scrabble Tiles of letter, blank, or None, and its associated value"""
-    def __init__(self, letter = NONE, value = None):
+    def __init__(self, letter = NONE, coords = (None, None)):
         self.letter = letter
         self.value = LETTER_VALUES.get(self.letter.lower()) if self.letter.lower() in LETTER_VALUES else 0
+        self.coords = coords
         if not isinstance(self.letter, (str , type(None))):
             raise ValueError('Proposed tile is not valid: '  + self.letter)
         if self.letter is None:
